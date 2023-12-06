@@ -1,0 +1,17 @@
+system.reset
+system.cpu at91sam3x8e
+;system.jtagclock rtck
+system.option resbreak off
+system.up
+Data.Set ASD:0x400E0A00 %Long (Data.Long(ASD:0x400E0A00)&0xFFFFF0FF)|0x00000600
+flash.reset
+flash.create 1. 0x80000++0x7ffff 0x100 TARGET Long
+flash.target 0x20000000 0x20000800 0x400 ~~/demo/arm/flash/long/eefcsam3s.bin
+flash.erase.all
+flash.program.all
+;data.load.auto * /long
+data.load.elf build\arduino.sam.arduino_due_x\pa_controller.ino.elf
+flash.program.all
+system.down
+system.up
+g
